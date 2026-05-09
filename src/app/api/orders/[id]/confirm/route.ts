@@ -14,7 +14,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { resend, FROM_ADDRESS } from '@/lib/resend'
+import { getResend, FROM_ADDRESS } from '@/lib/resend'
 import type { Order, CartItem } from '@/types'
 
 // ── Supabase admin client ─────────────────────────────────────────────────────
@@ -226,7 +226,7 @@ export async function POST(
     // ── 4. Send restaurant notification email ───────────────────────────────
     if (safeRestaurant.email) {
       try {
-        const { error: emailError } = await resend.emails.send({
+        const { error: emailError } = await getResend().emails.send({
           from: FROM_ADDRESS,
           to: safeRestaurant.email,
           subject: 'New order on Instamenu!',

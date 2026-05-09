@@ -5,8 +5,9 @@
  * Actions). Never expose the API key to the browser.
  *
  * Usage:
- *   import { resend, FROM_ADDRESS } from '@/lib/resend'
+ *   import { getResend, FROM_ADDRESS } from '@/lib/resend'
  *
+ *   const resend = getResend()
  *   await resend.emails.send({
  *     from: FROM_ADDRESS,
  *     to: customer.email,
@@ -17,12 +18,19 @@
 
 import { Resend } from 'resend'
 
-if (!process.env.RESEND_API_KEY) {
-  throw new Error('Missing env: RESEND_API_KEY')
-}
+// ─── Lazy-init Resend client (avoids module-level throws during build) ───────
 
-/** Singleton Resend client. */
-export const resend = new Resend(process.env.RESEND_API_KEY)
+let _resend: Resend | undefined
+
+/** Lazy singleton — throws at call time if RESEND_API_KEY is missing. */
+export function getResend(): Resend {
+  if (!_resend) {
+    const apiKey = process.env.RESEND_API_KEY
+    if (!apiKey) throw new Error('Missing env: RESEND_API_KEY')
+    _resend = new Resend(apiKey)
+  }
+  return _resend
+}
 
 /**
  * Default "from" address used for all outbound emails.
@@ -133,7 +141,7 @@ export async function sendOrderConfirmation(
     </html>
   `
 
-  const { data, error } = await resend.emails.send({
+  const { data, error } = await getResend().emails.send({
     from: FROM_ADDRESS,
     replyTo: REPLY_TO_ADDRESS,
     to,
