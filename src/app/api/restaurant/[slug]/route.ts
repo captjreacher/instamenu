@@ -63,11 +63,14 @@ export async function GET(
       return NextResponse.json({ error: 'Restaurant not found' }, { status: 404 })
     }
 
+    // After error + null guards, Supabase's GenericStringError union is excluded
+    const safeRestaurant = restaurant as unknown as Restaurant
+
     // ── 2. Fetch latest menu for this restaurant ────────────────────────────
     const { data: menu, error: menuError } = await supabase
       .from('menus')
       .select('id, restaurant_id, photo_url, parsed_at')
-      .eq('restaurant_id', restaurant.id)
+      .eq('restaurant_id', safeRestaurant.id)
       .order('created_at', { ascending: false })
       .limit(1)
       .single()
@@ -77,7 +80,7 @@ export async function GET(
         // Restaurant exists but has no menu yet
         return NextResponse.json(
           {
-            restaurant: restaurant as Restaurant,
+            restaurant: safeRestaurant,
             menu: null,
             items: [] as MenuItem[],
           },
@@ -91,11 +94,14 @@ export async function GET(
       )
     }
 
+    // After error guards, Supabase's GenericStringError union is excluded
+    const safeMenu = menu as unknown as Menu
+
     // ── 3. Fetch all menu items for this menu ───────────────────────────────
     const { data: items, error: itemsError } = await supabase
       .from('menu_items')
       .select('id, menu_id, name, description, price, category, available')
-      .eq('menu_id', menu.id)
+      .eq('menu_id', safeMenu.id)
       .eq('available', true)
       .order('category', { ascending: true })
       .order('name', { ascending: true })
@@ -110,8 +116,8 @@ export async function GET(
 
     // ── 4. Return response ──────────────────────────────────────────────────
     return NextResponse.json({
-      restaurant: restaurant as Restaurant,
-      menu: menu as Menu,
+      restaurant: safeRestaurant,
+      menu: safeMenu,
       items: (items ?? []) as MenuItem[],
     })
   } catch (err) {

@@ -202,11 +202,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       )
     }
 
+    // After error + null guards, Supabase's GenericStringError union is excluded
+    const safeRestaurant = restaurant as unknown as { id: string; slug: string }
+
     // ── 6. Insert menu ────────────────────────────────────────────────────────
     const { data: menu, error: menuError } = await supabase
       .from('menus')
       .insert({
-        restaurant_id: restaurant.id,
+        restaurant_id: safeRestaurant.id,
         photo_url: photoUrl,
         parsed_at: new Date().toISOString(),
       })
@@ -221,9 +224,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       )
     }
 
+    // After error + null guards, Supabase's GenericStringError union is excluded
+    const safeMenu = menu as unknown as { id: string }
+
     // ── 7. Insert menu items ──────────────────────────────────────────────────
     const itemRows = parsedItems.map((item) => ({
-      menu_id: menu.id,
+      menu_id: safeMenu.id,
       name: item.name,
       description: item.description ?? null,
       price: item.price,
@@ -246,7 +252,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     // ── 8. Return ParseMenuResponse ───────────────────────────────────────────
     return NextResponse.json(
-      { slug: restaurant.slug, restaurantId: restaurant.id },
+      { slug: safeRestaurant.slug, restaurantId: safeRestaurant.id },
       { status: 201 },
     )
   } catch (err) {

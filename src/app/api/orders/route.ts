@@ -27,7 +27,7 @@ import { stripe, toCents } from '@/lib/stripe'
 import { calculateFees, effectiveMerchantType } from '@/lib/fees'
 import type { CartItem } from '@/types'
 
-// ── Supabase admin client ─────────────────────────────────────────────────────
+// ── Supabase admin client ──────────────────────────────────────────────────────
 
 function getSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -63,7 +63,7 @@ function validateBody(body: unknown): body is OrderRequestBody {
   return true
 }
 
-// ── Route handler ─────────────────────────────────────────────────────────────
+// ── Route handler ──────────────────────────────────────────────────────────────
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
@@ -89,7 +89,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const { restaurant_id, customer_name, customer_email, customer_phone, items } = body
 
-    // ── 2. Fetch restaurant ───────────────────────────────────────────────────
+    // ── 2. Fetch restaurant ─────────────────────────────────────────────────────
     const supabase = getSupabase()
 
     const { data: restaurant, error: restaurantError } = await supabase
@@ -104,17 +104,20 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     if (restaurantError) {
       console.error('[orders] Restaurant fetch error:', restaurantError)
       return NextResponse.json(
-        { error: 'Failed to fetch restaurant', detail: restaurantError.message },
+        { error: 'Failed to fetch restaurant', detail: String(restaurantError) },
         { status: 502 },
       )
     }
 
-    // ── 3. Calculate fees ─────────────────────────────────────────────────────
+    // After error + null guards, Supabase's GenericStringError union is excluded
+    const safeRestaurant = restaurant as unknown as { id: string; name: string; email: string; status: string }
+
+    // ── 3. Calculate fees ──────────────────────────────────────────────────────
     // Sum price × quantity for all items (prices are dollar floats)
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
     // Treat 'pending' restaurants as 'oneoff' for fee purposes
-    const merchantType = effectiveMerchantType(restaurant.status)
+    const merchantType = effectiveMerchantType(safeRestaurant.status)
     const fees = calculateFees(subtotal, merchantType)
 
     // ── 4. Create Stripe PaymentIntent ────────────────────────────────────────
@@ -127,7 +130,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         receipt_email: customer_email,
         metadata: {
           restaurant_id,
-          restaurant_name: restaurant.name,
+          restaurant_name: safeRestaurant.name,
           customer_name,
           customer_email,
           merchant_type: merchantType,
@@ -142,7 +145,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       )
     }
 
-    // ── 5. Save order to Supabase ─────────────────────────────────────────────
+    // ── 5. Save order to Supabase ──────────────────────────────────────────────
     const { data: order, error: orderError } = await supabase
       .from('orders')
       .insert({
@@ -176,10 +179,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       )
     }
 
+    // After error + null guards, Supabase's GenericStringError union is excluded
+    const safeOrder = order as unknown as { id: string }
+
     // ── 6. Return CreateOrderResponse ─────────────────────────────────────────
     return NextResponse.json(
       {
-        orderId: order.id,
+        orderId: safeOrder.id,
         clientSecret: paymentIntent.client_secret,
       },
       { status: 201 },
