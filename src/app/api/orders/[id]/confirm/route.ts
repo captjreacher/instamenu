@@ -159,18 +159,15 @@ export async function POST(
       .eq('id', id)
       .single()
 
+    if (fetchError?.code === 'PGRST116' || !order) {
+      return NextResponse.json({ error: 'Order not found' }, { status: 404 })
+    }
     if (fetchError) {
-      if (fetchError.code === 'PGRST116') {
-        return NextResponse.json({ error: 'Order not found' }, { status: 404 })
-      }
       console.error('[orders/confirm] Fetch error:', fetchError)
       return NextResponse.json(
-        { error: 'Failed to fetch order', detail: fetchError.message },
+        { error: 'Failed to fetch order', detail: String(fetchError) },
         { status: 502 },
       )
-    }
-    if (!order) {
-      return NextResponse.json({ error: 'Order not found' }, { status: 404 })
     }
 
     // Idempotent: already confirmed → return success without re-sending email
