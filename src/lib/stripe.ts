@@ -8,7 +8,8 @@
 
 import Stripe from 'stripe'
 
-if (!process.env.STRIPE_SECRET_KEY) {
+const stripeKey = process.env.STRIPE_SECRET_KEY
+if (!stripeKey) {
   throw new Error('Missing env: STRIPE_SECRET_KEY')
 }
 
@@ -18,7 +19,7 @@ if (!process.env.STRIPE_SECRET_KEY) {
  *  - TypeScript strict mode types
  *  - App info header for Stripe dashboard attribution
  */
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+export const stripe = new Stripe(stripeKey, {
   apiVersion: '2024-06-20',
   typescript: true,
   appInfo: {
