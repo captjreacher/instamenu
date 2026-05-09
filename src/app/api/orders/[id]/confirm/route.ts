@@ -170,13 +170,16 @@ export async function POST(
       )
     }
 
+    // After error + null guards, Supabase's GenericStringError union is excluded
+    const safeOrder = order as unknown as Order
+
     // Idempotent: already confirmed → return success without re-sending email
-    if (order.status === 'confirmed') {
-      return NextResponse.json({ success: true, order: order as Order })
+    if (safeOrder.status === 'confirmed') {
+      return NextResponse.json({ success: true, order: safeOrder })
     }
 
     // Guard: cannot confirm a cancelled order
-    if (order.status === 'cancelled') {
+    if (safeOrder.status === 'cancelled') {
       return NextResponse.json(
         { error: 'Cannot confirm a cancelled order' },
         { status: 409 },
@@ -203,28 +206,32 @@ export async function POST(
       )
     }
 
+    const safeUpdatedOrder = updatedOrder as unknown as Order
+
     // ── 3. Fetch restaurant name + email for notification ───────────────────
     const { data: restaurant, error: restaurantError } = await supabase
       .from('restaurants')
       .select('name, email')
-      .eq('id', order.restaurant_id)
+      .eq('id', safeOrder.restaurant_id)
       .single()
 
     if (restaurantError || !restaurant) {
       // Non-fatal — order is confirmed; just skip the email
       console.warn('[orders/confirm] Could not fetch restaurant for notification:', restaurantError?.message)
-      return NextResponse.json({ success: true, order: updatedOrder as Order })
+      return NextResponse.json({ success: true, order: safeUpdatedOrder })
     }
 
+    const safeRestaurant = restaurant as unknown as { name: string; email: string | null }
+
     // ── 4. Send restaurant notification email ───────────────────────────────
-    if (restaurant.email) {
+    if (safeRestaurant.email) {
       try {
         const { error: emailError } = await resend.emails.send({
           from: FROM_ADDRESS,
-          to: restaurant.email,
+          to: safeRestaurant.email,
           subject: 'New order on Instamenu!',
-          html: buildEmailHtml(updatedOrder as Order, restaurant.name),
-          text: buildEmailText(updatedOrder as Order, restaurant.name),
+          html: buildEmailHtml(safeUpdatedOrder, safeRestaurant.name),
+          text: buildEmailText(safeUpdatedOrder, safeRestaurant.name),
         })
 
         if (emailError) {
@@ -236,12 +243,12 @@ export async function POST(
       }
     } else {
       console.info(
-        `[orders/confirm] Restaurant "${restaurant.name}" has no email address — skipping notification`,
+        `[orders/confirm] Restaurant "${safeRestaurant.name}" has no email address — skipping notification`,
       )
     }
 
     // ── 5. Return ───────────────────────────────────────────────────────────
-    return NextResponse.json({ success: true, order: updatedOrder as Order })
+    return NextResponse.json({ success: true, order: safeUpdatedOrder })
   } catch (err) {
     console.error('[orders/confirm] Unhandled error:', err)
     return NextResponse.json({ error: 'Internal server error', detail: String(err) }, { status: 500 })
