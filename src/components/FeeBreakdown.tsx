@@ -43,7 +43,7 @@ export default function FeeBreakdown({
           <span>{fmtCurrency(serviceFee)}</span>
         </div>
         {loyaltyAmount > 0 && (
-          <div className="flex justify-between text-green-400">
+          <div className="flex justify-between text-brand-400">
             <span>Loyalty credit</span>
             <span>-{fmtCurrency(loyaltyAmount)}</span>
           </div>
@@ -76,8 +76,8 @@ export default function FeeBreakdown({
       {/* Loyalty credit (if any) */}
       {loyaltyAmount > 0 && (
         <div className="flex items-center justify-between">
-          <span className="text-green-400 text-sm">Loyalty credit</span>
-          <span className="text-green-400 text-sm font-medium">-{fmtCurrency(loyaltyAmount)}</span>
+          <span className="text-brand-400 text-sm">Loyalty credit</span>
+          <span className="text-brand-400 text-sm font-medium">-{fmtCurrency(loyaltyAmount)}</span>
         </div>
       )}
 

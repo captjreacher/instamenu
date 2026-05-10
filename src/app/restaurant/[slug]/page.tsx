@@ -71,9 +71,9 @@ export default async function RestaurantPage({ params }: PageProps) {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <a
             href="/"
-            className="text-sm font-semibold tracking-tight text-gray-100 hover:text-green-400 transition-colors"
+            className="text-sm font-semibold tracking-tight text-gray-100 hover:text-brand-400 transition-colors"
           >
-            Insta<span className="text-green-400">menu</span>
+            Insta<span className="text-brand-400">menu</span>
           </a>
           <span className="text-xs text-gray-500 hidden sm:block">
             Powered by Instamenu · No commission ordering
@@ -86,8 +86,8 @@ export default async function RestaurantPage({ params }: PageProps) {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             {/* Initials avatar */}
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-green-500/20 border border-green-500/30 flex items-center justify-center shrink-0">
-              <span className="text-2xl sm:text-3xl font-extrabold text-green-400">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-brand-500/20 border border-brand-500/30 flex items-center justify-center shrink-0">
+              <span className="text-2xl sm:text-3xl font-extrabold text-brand-400">
                 {restaurant.name.charAt(0).toUpperCase()}
               </span>
             </div>
@@ -99,8 +99,8 @@ export default async function RestaurantPage({ params }: PageProps) {
 
               <div className="flex flex-wrap gap-3 mt-2">
                 {/* Open badge */}
-                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-green-400">
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                <span className="inline-flex items-center gap-1.5 text-xs font-medium text-brand-400">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse" />
                   Open now
                 </span>
 
@@ -114,7 +114,7 @@ export default async function RestaurantPage({ params }: PageProps) {
                 {restaurant.phone && (
                   <a
                     href={`tel:${restaurant.phone}`}
-                    className="text-xs text-gray-400 hover:text-green-400 transition-colors"
+                    className="text-xs text-gray-400 hover:text-brand-400 transition-colors"
                   >
                     {restaurant.phone}
                   </a>
@@ -139,7 +139,7 @@ export default async function RestaurantPage({ params }: PageProps) {
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-600">
           <span>
             Ordering powered by{" "}
-            <a href="/" className="text-gray-500 hover:text-green-400 transition-colors">
+            <a href="/" className="text-gray-500 hover:text-brand-400 transition-colors">
               Instamenu
             </a>
           </span>

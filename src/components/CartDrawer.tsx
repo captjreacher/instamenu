@@ -80,10 +80,10 @@ export default function CartDrawer({
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-800 shrink-0">
           <div className="flex items-center gap-3">
-            <CartIcon className="w-5 h-5 text-green-400" />
+            <CartIcon className="w-5 h-5 text-brand-400" />
             <h2 className="text-lg font-semibold text-gray-100">Your Cart</h2>
             {totalItems > 0 && (
-              <span className="bg-green-500 text-gray-950 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
+              <span className="bg-brand-500 text-gray-950 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
                 {totalItems > 99 ? "99+" : totalItems}
               </span>
             )}
@@ -128,7 +128,7 @@ export default function CartDrawer({
                     <p className="text-sm text-gray-400 mt-0.5">
                       {fmt(item.price)} each
                     </p>
-                    <p className="text-sm font-semibold text-green-400 mt-1">
+                    <p className="text-sm font-semibold text-brand-400 mt-1">
                       {fmt(item.price * item.quantity)}
                     </p>
                   </div>
@@ -173,7 +173,7 @@ export default function CartDrawer({
 
               <button
                 onClick={onCheckout}
-                className="w-full bg-green-500 hover:bg-green-600 text-gray-950 font-bold py-3.5 rounded-lg text-base transition-colors duration-200 flex items-center justify-center gap-2"
+                className="w-full bg-brand-500 hover:bg-brand-600 text-gray-950 font-bold py-3.5 rounded-lg text-base transition-colors duration-200 flex items-center justify-center gap-2"
               >
                 Checkout · {fmt(subtotal + calculateCustomerFee(subtotal))}
               </button>

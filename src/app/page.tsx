@@ -57,7 +57,7 @@ export default function HomePage() {
       <nav className="border-b border-gray-800 px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <span className="text-xl font-bold tracking-tight">
-            Insta<span className="text-green-400">menu</span>
+            Insta<span className="text-brand-400">menu</span>
           </span>
           <span className="text-sm text-gray-400">For restaurants</span>
         </div>
@@ -67,15 +67,15 @@ export default function HomePage() {
       <section className="flex-1 flex flex-col items-center justify-center px-4 py-16 sm:py-24">
         <div className="w-full max-w-2xl mx-auto text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-1.5 mb-6">
-            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-green-400 text-sm font-medium">AI-powered ordering in seconds</span>
+          <div className="inline-flex items-center gap-2 bg-brand-500/10 border border-brand-500/20 rounded-full px-4 py-1.5 mb-6">
+            <span className="w-2 h-2 rounded-full bg-brand-400 animate-pulse" />
+            <span className="text-brand-400 text-sm font-medium">AI-powered ordering in seconds</span>
           </div>
 
           {/* Headline */}
           <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-gray-100 mb-4 text-balance leading-tight">
             Snap a menu.{" "}
-            <span className="text-green-400">Order instantly.</span>
+            <span className="text-brand-400">Order instantly.</span>
           </h1>
           <p className="text-lg sm:text-xl text-gray-400 mb-12 text-balance">
             Upload your restaurant&apos;s menu photo and we&apos;ll create a live
@@ -99,7 +99,7 @@ export default function HomePage() {
                   value={restaurantName}
                   onChange={(e) => setRestaurantName(e.target.value)}
                   placeholder="e.g. Mario's Kitchen"
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition"
                 />
               </div>
               <div>
@@ -112,7 +112,7 @@ export default function HomePage() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="+1 555 000 0000"
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition"
                 />
               </div>
               <div className="sm:col-span-2">
@@ -125,7 +125,7 @@ export default function HomePage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="orders@yourrestaurant.com"
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition"
                 />
               </div>
             </div>
@@ -141,7 +141,7 @@ export default function HomePage() {
             <button
               type="submit"
               disabled={!selectedFile || isLoading}
-              className="w-full bg-green-500 hover:bg-green-600 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed text-gray-950 font-bold py-4 rounded-lg text-lg transition-all duration-200 flex items-center justify-center gap-3"
+              className="w-full bg-brand-500 hover:bg-brand-600 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed text-gray-950 font-bold py-4 rounded-lg text-lg transition-all duration-200 flex items-center justify-center gap-3"
             >
               {isLoading ? (
                 <>
@@ -188,7 +188,7 @@ export default function HomePage() {
                 key={step}
                 className="bg-gray-900 border border-gray-800 rounded-xl p-6"
               >
-                <div className="w-10 h-10 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 font-bold text-lg flex items-center justify-center mb-4">
+                <div className="w-10 h-10 rounded-full bg-brand-500/20 border border-brand-500/30 text-brand-400 font-bold text-lg flex items-center justify-center mb-4">
                   {step}
                 </div>
                 <h3 className="font-semibold text-gray-100 mb-2">{title}</h3>

@@ -190,8 +190,8 @@ export default function OrderingClient({
   if (checkoutStep === "success") {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4 py-16">
-        <div className="w-20 h-20 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center mb-6">
-          <CheckCircleIcon className="w-10 h-10 text-green-400" />
+        <div className="w-20 h-20 rounded-full bg-brand-500/20 border border-brand-500/30 flex items-center justify-center mb-6">
+          <CheckCircleIcon className="w-10 h-10 text-brand-400" />
         </div>
         <h2 className="text-3xl font-extrabold text-gray-100 mb-3">
           Order placed!
@@ -199,7 +199,7 @@ export default function OrderingClient({
         <p className="text-lg text-gray-400 max-w-sm leading-relaxed">
           The restaurant has been notified. You&apos;ll receive a confirmation
           at{" "}
-          <span className="text-green-400">{form.email || "your email"}</span>.
+          <span className="text-brand-400">{form.email || "your email"}</span>.
         </p>
         {orderId && (
           <p className="text-sm text-gray-600 mt-4">
@@ -239,7 +239,7 @@ export default function OrderingClient({
               className={[
                 "shrink-0 text-sm font-medium px-4 py-1.5 rounded-full transition-colors whitespace-nowrap",
                 activeCategory === cat
-                  ? "bg-green-500 text-gray-950"
+                  ? "bg-brand-500 text-gray-950"
                   : "text-gray-400 hover:text-gray-100 hover:bg-gray-800",
               ].join(" ")}
             >
@@ -344,7 +344,7 @@ export default function OrderingClient({
 
                   <button
                     onClick={() => setCheckoutStep("form")}
-                    className="mt-4 w-full bg-green-500 hover:bg-green-600 text-gray-950 font-bold py-3 rounded-lg transition-colors"
+                    className="mt-4 w-full bg-brand-500 hover:bg-brand-600 text-gray-950 font-bold py-3 rounded-lg transition-colors"
                   >
                     Checkout · {fmt(total)}
                   </button>
@@ -360,7 +360,7 @@ export default function OrderingClient({
         <div className="lg:hidden fixed bottom-6 left-0 right-0 z-40 flex justify-center px-4">
           <button
             onClick={() => setIsCartOpen(true)}
-            className="w-full max-w-sm bg-green-500 hover:bg-green-600 text-gray-950 font-bold py-4 rounded-xl shadow-lg shadow-green-900/30 transition-colors flex items-center justify-between px-5"
+            className="w-full max-w-sm bg-brand-500 hover:bg-brand-600 text-gray-950 font-bold py-4 rounded-xl shadow-lg shadow-brand-900/30 transition-colors flex items-center justify-between px-5"
           >
             <span className="bg-gray-950/20 rounded-lg w-7 h-7 flex items-center justify-center text-sm font-bold">
               {totalItems}
@@ -449,7 +449,7 @@ function MenuCard({ item, qty, onAdd, onIncrease, onDecrease, fmt }: MenuCardPro
           <h4 className="text-sm font-semibold text-gray-100 leading-snug">
             {item.name}
           </h4>
-          <span className="text-sm font-bold text-green-400 shrink-0 mt-0.5">
+          <span className="text-sm font-bold text-brand-400 shrink-0 mt-0.5">
             {fmt(item.price)}
           </span>
         </div>
@@ -471,7 +471,7 @@ function MenuCard({ item, qty, onAdd, onIncrease, onDecrease, fmt }: MenuCardPro
           {qty === 0 ? (
             <button
               onClick={onAdd}
-              className="text-sm bg-green-500 hover:bg-green-600 text-gray-950 font-semibold px-4 py-1.5 rounded-lg transition-colors"
+              className="text-sm bg-brand-500 hover:bg-brand-600 text-gray-950 font-semibold px-4 py-1.5 rounded-lg transition-colors"
             >
               + Add
             </button>
@@ -489,7 +489,7 @@ function MenuCard({ item, qty, onAdd, onIncrease, onDecrease, fmt }: MenuCardPro
               </span>
               <button
                 onClick={onIncrease}
-                className="w-7 h-7 rounded-lg bg-green-500 hover:bg-green-600 text-gray-950 font-bold flex items-center justify-center transition"
+                className="w-7 h-7 rounded-lg bg-brand-500 hover:bg-brand-600 text-gray-950 font-bold flex items-center justify-center transition"
                 aria-label="Increase quantity"
               >
                 +
@@ -623,7 +623,7 @@ function CheckoutModal({
                     autoComplete="name"
                     className={[
                       "w-full bg-gray-800 border rounded-lg px-4 py-3 text-gray-100 placeholder-gray-500",
-                      "focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition",
+                      "focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition",
                       "disabled:opacity-50 disabled:cursor-not-allowed",
                       formErrors.name ? "border-red-500" : "border-gray-700",
                     ].join(" ")}
@@ -651,7 +651,7 @@ function CheckoutModal({
                     autoComplete="email"
                     className={[
                       "w-full bg-gray-800 border rounded-lg px-4 py-3 text-gray-100 placeholder-gray-500",
-                      "focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition",
+                      "focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition",
                       "disabled:opacity-50 disabled:cursor-not-allowed",
                       formErrors.email ? "border-red-500" : "border-gray-700",
                     ].join(" ")}
@@ -678,7 +678,7 @@ function CheckoutModal({
                     placeholder="+1 555 000 0000"
                     disabled={isLoading}
                     autoComplete="tel"
-                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
               </div>
@@ -697,7 +697,7 @@ function CheckoutModal({
             <button
               onClick={onSubmit}
               disabled={isLoading}
-              className="w-full bg-green-500 hover:bg-green-600 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed text-gray-950 font-bold py-3.5 rounded-lg text-base transition-colors flex items-center justify-center gap-2"
+              className="w-full bg-brand-500 hover:bg-brand-600 disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed text-gray-950 font-bold py-3.5 rounded-lg text-base transition-colors flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>

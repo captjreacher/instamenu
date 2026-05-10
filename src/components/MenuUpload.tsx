@@ -103,12 +103,12 @@ export default function MenuUpload({ onFileSelect }: MenuUploadProps) {
         aria-label="Upload menu photo"
         className={[
           "relative w-full rounded-xl border-2 border-dashed transition-all duration-200 overflow-hidden",
-          "focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-950",
+          "focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-gray-950",
           isDragging
-            ? "border-green-400 bg-green-500/10"
+            ? "border-brand-400 bg-brand-500/10"
             : preview
-            ? "border-green-500/40 bg-gray-900 cursor-default"
-            : "border-gray-700 bg-gray-900 hover:border-green-500/60 hover:bg-gray-800/80 cursor-pointer",
+            ? "border-brand-500/40 bg-gray-900 cursor-default"
+            : "border-gray-700 bg-gray-900 hover:border-brand-500/60 hover:bg-gray-800/80 cursor-pointer",
         ].join(" ")}
       >
         {preview ? (
@@ -128,7 +128,7 @@ export default function MenuUpload({ onFileSelect }: MenuUploadProps) {
             {/* File name + actions */}
             <div className="absolute bottom-0 left-0 right-0 p-4 flex items-center justify-between">
               <div className="flex items-center gap-2 min-w-0">
-                <CheckIcon className="w-5 h-5 text-green-400 shrink-0" />
+                <CheckIcon className="w-5 h-5 text-brand-400 shrink-0" />
                 <span className="text-sm text-gray-200 truncate">{fileName}</span>
               </div>
               <div className="flex gap-2 shrink-0">
@@ -162,14 +162,14 @@ export default function MenuUpload({ onFileSelect }: MenuUploadProps) {
               className={[
                 "w-16 h-16 rounded-2xl flex items-center justify-center transition-colors duration-200",
                 isDragging
-                  ? "bg-green-500/20"
+                  ? "bg-brand-500/20"
                   : "bg-gray-800",
               ].join(" ")}
             >
               <CameraIcon
                 className={[
                   "w-8 h-8 transition-colors duration-200",
-                  isDragging ? "text-green-400" : "text-gray-400",
+                  isDragging ? "text-brand-400" : "text-gray-400",
                 ].join(" ")}
               />
             </div>
@@ -177,14 +177,14 @@ export default function MenuUpload({ onFileSelect }: MenuUploadProps) {
               <p
                 className={[
                   "text-base font-semibold transition-colors duration-200",
-                  isDragging ? "text-green-400" : "text-gray-200",
+                  isDragging ? "text-brand-400" : "text-gray-200",
                 ].join(" ")}
               >
                 {isDragging ? "Drop it here" : "Drop your menu photo here"}
               </p>
               <p className="text-sm text-gray-500 mt-1">
                 or{" "}
-                <span className="text-green-400 underline underline-offset-2 decoration-green-400/50">
+                <span className="text-brand-400 underline underline-offset-2 decoration-brand-400/50">
                   click to browse
                 </span>
               </p>
