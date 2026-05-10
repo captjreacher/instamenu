@@ -4,29 +4,36 @@
  * Import this ONLY in server-side code (API routes, Route Handlers, Server
  * Actions). Never import it in Client Components — use the publishable key
  * via @stripe/stripe-js on the browser instead.
+ *
+ * Usage:
+ *   import { getStripe, toCents } from '@/lib/stripe'
+ *
+ *   const stripe = getStripe()
+ *   const pi = await stripe.paymentIntents.create({ ... })
  */
 
 import Stripe from 'stripe'
 
-const stripeKey = process.env.STRIPE_SECRET_KEY
-if (!stripeKey) {
-  throw new Error('Missing env: STRIPE_SECRET_KEY')
-}
+// ─── Lazy-init Stripe client (avoids module-level throws during build) ───────
 
-/**
- * Singleton Stripe client configured with:
- *  - API version pinned for stability
- *  - TypeScript strict mode types
- *  - App info header for Stripe dashboard attribution
- */
-export const stripe = new Stripe(stripeKey, {
-  apiVersion: '2024-06-20',
-  typescript: true,
-  appInfo: {
-    name: 'Instamenu',
-    version: '0.1.0',
-  },
-})
+let _stripe: Stripe | undefined
+
+/** Lazy singleton — throws at call time if STRIPE_SECRET_KEY is missing. */
+export function getStripe(): Stripe {
+  if (!_stripe) {
+    const key = process.env.STRIPE_SECRET_KEY
+    if (!key) throw new Error('Missing env: STRIPE_SECRET_KEY')
+    _stripe = new Stripe(key, {
+      apiVersion: '2024-06-20',
+      typescript: true,
+      appInfo: {
+        name: 'Instamenu',
+        version: '0.1.0',
+      },
+    })
+  }
+  return _stripe
+}
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -57,5 +64,5 @@ export function constructWebhookEvent(
 ): Stripe.Event {
   const secret = process.env.STRIPE_WEBHOOK_SECRET
   if (!secret) throw new Error('Missing env: STRIPE_WEBHOOK_SECRET')
-  return stripe.webhooks.constructEvent(payload, signature, secret)
+  return getStripe().webhooks.constructEvent(payload, signature, secret)
 }

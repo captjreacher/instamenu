@@ -23,7 +23,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { stripe, toCents } from '@/lib/stripe'
+import { getStripe, toCents } from '@/lib/stripe'
 import { calculateFees, effectiveMerchantType } from '@/lib/fees'
 import type { CartItem } from '@/types'
 
@@ -124,7 +124,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     // amount = subtotal + customer_fee − loyalty_amount (customer's total)
     let paymentIntent
     try {
-      paymentIntent = await stripe.paymentIntents.create({
+      paymentIntent = await getStripe().paymentIntents.create({
         amount: toCents(fees.total),
         currency: 'usd',
         receipt_email: customer_email,
@@ -169,7 +169,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       console.error('[orders] Order insert error:', orderError)
       // Best-effort cleanup: cancel the orphaned PaymentIntent
       try {
-        await stripe.paymentIntents.cancel(paymentIntent.id)
+        await getStripe().paymentIntents.cancel(paymentIntent.id)
       } catch (cancelErr) {
         console.error('[orders] Failed to cancel orphaned PaymentIntent:', cancelErr)
       }
